@@ -80,23 +80,3 @@ class Tree():
             line = indent + spacing.join(f"{v:.2f}" for v in level)
             print(line)
             print("\n" * (2 ** (max_depth - depth) - 1))
-
-    def count_nodes(self):
-        unique_nodes = set()
-
-        def traverse_and_count(node):
-            if node is None or node.val in unique_nodes:
-                return
-            unique_nodes.add(node.val)
-            traverse_and_count(node.left)
-            traverse_and_count(node.right)
-
-        traverse_and_count(self.root)
-        return len(unique_nodes)
-
-# u, d = np.round(np.exp(0.1*np.sqrt(1/3)), 4), np.round(np.exp(-0.1*np.sqrt(1/3)), 4)
-# # floating point and rounding is the killer
-# tree = Tree(100, 3, u, d, 0)
-# print(tree.count_nodes())
-
-# idea: traverse left and right subtree post order but when reaching root instead of 'visiting' compute its new value as root.left*down_prob + root.right*up_prob

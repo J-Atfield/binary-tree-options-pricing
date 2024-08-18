@@ -26,17 +26,12 @@ class Option():
     def calculate_option_price(self):
         levels = self.tree.get_tree_levels(self.tree.root)
         max_depth = max(levels.keys())
-        # option_values = {max_depth: [self.p * self.payoff(levels[max_depth][i+1]) + (1 - self.p) * self.payoff(levels[max_depth][i]) for i in range(len(levels[max_depth])-1)]}
+
         option_values = {max_depth: [self.payoff(S) for S in levels[max_depth]]}
 
         for depth in range(max_depth - 1, -1, -1):
             option_values[depth] = []
             for i in range(len(levels[depth])):
                 option_values[depth].append((self.p * option_values[depth + 1][i+1] + (1 - self.p) * option_values[depth + 1][i]))
-        
-        # for k, v in option_values.items():
-        #     print(k, v)
 
         return option_values[0][0] * np.exp(-self.r * self.T)
-    
-# how do i naturally include discounting here
