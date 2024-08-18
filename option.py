@@ -15,7 +15,7 @@ class Option():
         self.p = (self.a - self.d) / (self.u - self.d)
         self.type = option_type
         self.tree = tree.Tree(S0, n, self.u, self.d, self.a)
-        self.option_price = self.calculate_option_price()[0][0]
+        self.option_price = self.calculate_option_price()
 
     def payoff(self, S):
         if self.type == 'call':
@@ -37,4 +37,6 @@ class Option():
         # for k, v in option_values.items():
         #     print(k, v)
 
-        return option_values
+        return option_values[0][0] * np.exp(-self.r * self.T)
+    
+# how do i naturally include discounting here
