@@ -1,17 +1,20 @@
 import tree
+import numpy as np
 from collections import defaultdict
 
 class Option():
-    def __init__(self, S0, K, r, T, u, d, type='call'):
+    def __init__(self, S0, K, r, T, vol, n, option_type='call'):
         self.S0 = S0
         self.K = K
-        self.r = r
         self.T = T
-        self.u = u
-        self.d = d
-        self.p = (self.r - self.d) / (self.u - self.d)
-        self.type = type
-        self.tree = tree.Tree(S0, T, u, d, r)
+        self.dt = T / n
+        self.r = r
+        self.a = np.round(np.exp(r * self.dt), 4)
+        self.u = np.round(np.exp(vol * np.sqrt(self.dt)), 4)
+        self.d = np.round(np.exp(-vol * np.sqrt(self.dt)), 4)
+        self.p = (self.a - self.d) / (self.u - self.d)
+        self.type = option_type
+        self.tree = tree.Tree(S0, n, self.u, self.d, self.a)
         self.option_price = self.calculate_option_price()[0][0]
 
     def payoff(self, S):
