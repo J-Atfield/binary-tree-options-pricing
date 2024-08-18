@@ -17,22 +17,35 @@ class Tree():
             return
         
         # Calculate values for the right (up) and left (down) nodes
-        up_value = np.round(root.val * (1 + u), 4)
-        down_value = np.round(root.val * (1 + d), 4)
+        up_value = root.val * u
+        down_value = root.val * d
         
         # Create or retrieve the right node
-        if up_value not in nodes_cache:
+        tolerance = 1e-5
+
+        # Create or retrieve the right node
+        found_right = False
+        for value, node in nodes_cache.items():
+            if abs(up_value - value) <= tolerance:
+                root.right = node
+                found_right = True
+                break
+
+        if not found_right:
             root.right = TreeNode(up_value)
             nodes_cache[up_value] = root.right
-        else:
-            root.right = nodes_cache[up_value]
 
         # Create or retrieve the left node
-        if down_value not in nodes_cache:
+        found_left = False
+        for value, node in nodes_cache.items():
+            if abs(down_value - value) <= tolerance:
+                root.left = node
+                found_left = True
+                break
+
+        if not found_left:
             root.left = TreeNode(down_value)
             nodes_cache[down_value] = root.left
-        else:
-            root.left = nodes_cache[down_value]
 
         # Recursively build the tree for the right and left nodes
         self.build_tree(root.right, periods - 1, u, d, nodes_cache)
@@ -81,5 +94,9 @@ class Tree():
         traverse_and_count(self.root)
         return len(unique_nodes)
 
+# u, d = np.round(np.exp(0.1*np.sqrt(1/3)), 4), np.round(np.exp(-0.1*np.sqrt(1/3)), 4)
+# # floating point and rounding is the killer
+# tree = Tree(100, 3, u, d, 0)
+# print(tree.count_nodes())
 
 # idea: traverse left and right subtree post order but when reaching root instead of 'visiting' compute its new value as root.left*down_prob + root.right*up_prob
