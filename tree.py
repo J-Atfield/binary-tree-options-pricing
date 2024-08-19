@@ -8,9 +8,12 @@ class TreeNode():
         self.right = None
 
 class Tree():
-    def __init__(self, S0, n=1, u=0, d=0, r=0):
+    def __init__(self, S0=0, n=1, u=0, d=0, r=0, type='underlying', levels=None):
         self.root = TreeNode(S0)
-        self.build_tree(self.root, n, u, d, {})
+        if type == 'underlying':
+            self.build_tree(self.root, n, u, d, {})
+        elif type == 'option' or type == 'delta':
+            self.root = self.build_tree_from_levels(levels)
 
     def build_tree(self, root, periods, u, d, nodes_cache):
         if periods == 0:
@@ -68,6 +71,26 @@ class Tree():
             self.get_tree_levels(node.right, depth + 1, levels)
         
         return levels
+
+    def build_tree_from_levels(self, levels):
+        root = TreeNode(levels[0][0])  # Create the root node with the first value in the levels
+        
+        queue = [(root, 0, 0)]  # Initialize a queue with the root node, its depth, and its index
+        
+        while queue:
+            node, depth, index = queue.pop(0)  # Pop the first node from the queue
+            
+            if depth + 1 in levels and index < len(levels[depth + 1]):
+                left_value = levels[depth + 1][index]  # Get the value for the left child node
+                node.left = TreeNode(left_value)  # Create the left child node
+                queue.append((node.left, depth + 1, index))  # Add the left child node to the queue
+            
+            if depth + 1 in levels and index + 1 < len(levels[depth + 1]):
+                right_value = levels[depth + 1][index + 1]  # Get the value for the right child node
+                node.right = TreeNode(right_value)  # Create the right child node
+                queue.append((node.right, depth + 1, index + 1))  # Add the right child node to the queue
+        
+        return root
 
     def print_text_tree(self):
         levels = self.get_tree_levels(self.root)
