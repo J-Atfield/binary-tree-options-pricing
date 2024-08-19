@@ -1,4 +1,3 @@
-import tree
 import numpy as np
 from underlying import Underlying
 
