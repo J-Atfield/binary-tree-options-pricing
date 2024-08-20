@@ -11,8 +11,8 @@ class Option():
         self.T = T
         self.r = r
         self.n = n
-        self.price_tree = Tree(type='option', levels=self.calculate_option_prices())
-        self.delta_tree = Tree(type='delta', levels=self.calculate_option_deltas())
+        self.price_tree = self.calculate_option_prices() # Tree(type='option', levels=self.calculate_option_prices())
+        self.delta_tree = self.calculate_option_deltas() # Tree(type='delta', levels=self.calculate_option_deltas())
 
     def payoff(self, S):
         if self.type == 'call':
