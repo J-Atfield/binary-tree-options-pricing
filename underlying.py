@@ -9,4 +9,4 @@ class Underlying():
         self.u = np.round(np.exp(vol * np.sqrt(self.dt)), 4)
         self.d = np.round(np.exp(-vol * np.sqrt(self.dt)), 4)
         self.p = (self.a - self.d) / (self.u - self.d)
-        self.tree = Tree(S0, n, self.u, self.d, self.a, type='underlying')
+        self.tree = Tree(S0, n, self.u, self.d)
