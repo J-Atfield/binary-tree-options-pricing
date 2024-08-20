@@ -37,7 +37,7 @@ class Option():
         return option_values #[0][0] * np.exp(-self.r * self.T)
     
     def calculate_option_deltas(self):
-        option_levels = self.price_tree.get_tree_levels(self.price_tree.root)
+        option_levels = self.price_tree
         price_levels = self.underlying.tree.get_tree_levels(self.underlying.tree.root)
         max_depth = max(option_levels.keys())
 
@@ -48,4 +48,5 @@ class Option():
                 option_deltas[depth-1].append((option_levels[depth][i+1] - option_levels[depth][i]) / (price_levels[depth][i+1] - price_levels[depth][i]))
 
         return option_deltas
+
         
