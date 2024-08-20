@@ -1,6 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
 class TreeNode():
     def __init__(self, val=0):
         self.val = val
@@ -8,7 +5,7 @@ class TreeNode():
         self.right = None
 
 class Tree():
-    def __init__(self, S0, n=1, u=0, d=0, r=0):
+    def __init__(self, S0=0, n=1, u=0, d=0):
         self.root = TreeNode(S0)
         self.build_tree(self.root, n, u, d, {})
 
