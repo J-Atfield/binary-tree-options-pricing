@@ -76,7 +76,7 @@ class Option():
         fig = plt.figure(figsize=[5, 5])
         
         plt.axis('off')
-        plt.title(f'{type} Tree')
+        plt.title(f'{type.title()} Tree')
         
         for i in range(nb_steps):
             x = (np.arange(3 + i*2) % 2 == 0) + i
